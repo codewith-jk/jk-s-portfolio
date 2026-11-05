@@ -1,69 +1,277 @@
-import Image from "next/image";
 
-export default function Home() {
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, Menu, X } from "lucide-react";
+
+import EarthScene from "../src/components/hero/EarthScene";
+import MissionSection from "../src/components/home/MissionSection";
+
+const navigation = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Experience", href: "/experience" },
+];
+
+export default function HomePage() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
+
+  // =====================================
+  // SMART AUTO-HIDE NAVBAR
+  // =====================================
+
+  useEffect(() => {
+    lastScrollY.current = window.scrollY;
+
+    const handleScroll = () => {
+      if (ticking.current) return;
+
+      ticking.current = true;
+
+      window.requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        const previousScrollY = lastScrollY.current;
+
+        const difference = currentScrollY - previousScrollY;
+
+        // Always show navbar at page top
+        if (currentScrollY <= 80) {
+          setIsHeaderVisible(true);
+        }
+
+        // Hide when scrolling down
+        else if (difference > 6) {
+          setIsHeaderVisible(false);
+          setMenuOpen(false);
+        }
+
+        // Show when scrolling up
+        else if (difference < -6) {
+          setIsHeaderVisible(true);
+        }
+
+        if (Math.abs(difference) > 6) {
+          lastScrollY.current = currentScrollY;
+        }
+
+        ticking.current = false;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // =====================================
+  // CLOSE MOBILE MENU ON ESCAPE
+  // =====================================
+
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
+  // =====================================
+  // PAGE UI
+  // =====================================
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="portfolio">
+
+      {/* =================================
+          HEADER / NAVBAR
+      ================================= */}
+
+      <header
+        className={`site-header ${
+          isHeaderVisible ? "" : "site-header--hidden"
+        }`}
+      >
+
+        {/* JK LOGO */}
+
+        <Link
+          href="/"
+          className="brand"
+          aria-label="JK Home"
+        >
+          <Image
+            src="/images/jk-logo-white.png"
+            alt="JK Logo"
+            width={100}
+            height={70}
+            priority
+            className="brand-logo"
+          />
+        </Link>
+
+        {/* DESKTOP NAVIGATION */}
+
+        <nav
+          className="desktop-nav"
+          aria-label="Main navigation"
+        >
+          {navigation.map((item) => (
+            <Link
+              href={item.href}
+              key={item.label}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* CONTACT BUTTON */}
+
+        <Link
+          href="/contact"
+          className="header-contact"
+        >
+          Contact
+          <ArrowRight size={15} />
+        </Link>
+
+        {/* MOBILE MENU BUTTON */}
+
+        <button
+          type="button"
+          className="menu-button"
+          onClick={() => setMenuOpen((prev) => !prev)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
+        >
+          {menuOpen ? (
+            <X size={22} />
+          ) : (
+            <Menu size={22} />
+          )}
+        </button>
+
+      </header>
+
+      {/* =================================
+          MOBILE NAVIGATION
+      ================================= */}
+
+      {menuOpen && (
+        <nav
+          className="mobile-nav"
+          id="mobile-navigation"
+          aria-label="Mobile navigation"
+        >
+          {navigation.map((item) => (
+            <Link
+              href={item.href}
+              key={item.label}
+              onClick={() => setMenuOpen(false)}
             >
-              Learning
-            </a>{" "}
-            center.
+              {item.label}
+              <ArrowRight size={17} />
+            </Link>
+          ))}
+
+          <Link
+            href="/contact"
+            onClick={() => setMenuOpen(false)}
+          >
+            Contact
+            <ArrowRight size={17} />
+          </Link>
+        </nav>
+      )}
+
+      {/* =================================
+          HERO SECTION
+      ================================= */}
+
+      <section
+        className="hero-section"
+        id="home"
+      >
+
+        {/* HERO CONTENT */}
+
+        <div className="hero-content">
+
+          <p className="hero-eyebrow">
+            <span>FULL STACK DEVELOPER</span>
+            <span className="location-divider">/</span>
+
+            <span className="india-text">
+              <span className="india-saffron">IN</span>
+              <span className="india-white">D</span>
+              <span className="india-green">IA</span>
+            </span>
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+          <h1 className="hero-title">
+            <span>BUILDING</span>
+            <span>BEYOND</span>
+            <span>THE ORDINARY</span>
+          </h1>
+
+          <p className="hero-description">
+            I&apos;m JK, a Full Stack Developer driven by innovation.
+            I design, engineer, and build digital experiences that
+            push boundaries and turn ambitious ideas into reality.
+          </p>
+
+          <Link
+            href="/projects"
+            className="explore-button"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            EXPLORE MY WORK
+            <ArrowRight size={19} />
+          </Link>
+
         </div>
-      </main>
-    </div>
+
+        {/* =================================
+            ROTATING EARTH
+        ================================= */}
+
+        <div
+          className="earth-container"
+          aria-label="Rotating planet Earth"
+        >
+          <div className="earth-light" />
+
+          <EarthScene />
+
+        </div>
+
+      </section>
+
+      {/* =================================
+          SECTION 02 — THE MISSION
+      ================================= */}
+
+      <MissionSection />
+
+      {/* Future homepage sections will go here */}
+
+    </main>
   );
 }
