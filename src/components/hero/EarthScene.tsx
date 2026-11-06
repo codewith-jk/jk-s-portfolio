@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Suspense, useMemo, useRef } from "react";
@@ -55,11 +54,7 @@ const earthFragmentShader = `
     float cityMask = smoothstep(0.018, 0.10, lightValue);
     vec3 cityLights = nightColor * cityMask * 3.5;
 
-    vec3 finalColor = mix(
-      cityLights,
-      dayColor,
-      dayFactor
-    );
+    vec3 finalColor = mix(cityLights, dayColor, dayFactor);
 
     gl_FragColor = vec4(finalColor, 1.0);
 
@@ -98,27 +93,14 @@ const cloudFragmentShader = `
     vec3 sunDirection = normalize(uSunDirection);
 
     float sunlight = dot(normal, sunDirection);
-
-    float dayVisibility = smoothstep(
-      -0.025,
-      0.22,
-      sunlight
-    );
+    float dayVisibility = smoothstep(-0.025, 0.22, sunlight);
 
     float cloudValue = texture2D(uCloudMap, vUv).r;
-
-    float cloudMask = smoothstep(
-      0.42,
-      0.76,
-      cloudValue
-    );
+    float cloudMask = smoothstep(0.42, 0.76, cloudValue);
 
     float alpha = cloudMask * dayVisibility * 0.34;
 
-    gl_FragColor = vec4(
-      vec3(0.90, 0.94, 1.0),
-      alpha
-    );
+    gl_FragColor = vec4(vec3(0.90, 0.94, 1.0), alpha);
   }
 `;
 
@@ -136,18 +118,23 @@ function Earth() {
     "/textures/8k_earth_clouds.jpg",
   ]);
 
-  dayMap.colorSpace = THREE.SRGBColorSpace;
-  nightMap.colorSpace = THREE.SRGBColorSpace;
-  cloudMap.colorSpace = THREE.NoColorSpace;
+  // Configure textures once
+  useMemo(() => {
+    dayMap.colorSpace = THREE.SRGBColorSpace;
+    nightMap.colorSpace = THREE.SRGBColorSpace;
+    cloudMap.colorSpace = THREE.NoColorSpace;
 
-  [dayMap, nightMap, cloudMap].forEach((texture) => {
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.anisotropy = 8;
-    texture.minFilter = THREE.LinearMipmapLinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.generateMipmaps = true;
-    texture.needsUpdate = true;
-  });
+    [dayMap, nightMap, cloudMap].forEach((texture) => {
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.anisotropy = 2;
+      texture.minFilter = THREE.LinearMipmapLinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.generateMipmaps = true;
+      texture.needsUpdate = true;
+    });
+
+    return true;
+  }, [dayMap, nightMap, cloudMap]);
 
   const sunDirection = useMemo(
     () => new THREE.Vector3(-0.95, 0.04, 0.12).normalize(),
@@ -171,13 +158,17 @@ function Earth() {
     [cloudMap, sunDirection]
   );
 
+  // Smooth, frame-rate independent rotation
   useFrame((_, delta) => {
+    // Prevent large rotation jumps after a delayed frame
+    const safeDelta = Math.min(delta, 0.033);
+
     if (earthRef.current) {
-      earthRef.current.rotation.y += delta * 0.030;
+      earthRef.current.rotation.y += safeDelta * 0.030;
     }
 
     if (cloudRef.current) {
-      cloudRef.current.rotation.y += delta * 0.005;
+      cloudRef.current.rotation.y += safeDelta * 0.005;
     }
   });
 
@@ -189,7 +180,7 @@ function Earth() {
     >
       {/* EARTH SURFACE */}
       <mesh>
-        <sphereGeometry args={[1, 128, 128]} />
+        <sphereGeometry args={[1, 96, 96]} />
 
         <shaderMaterial
           vertexShader={earthVertexShader}
@@ -202,7 +193,7 @@ function Earth() {
       {/* INDEPENDENT CLOUD LAYER */}
       <group ref={cloudRef}>
         <mesh scale={1.006}>
-          <sphereGeometry args={[1, 128, 128]} />
+          <sphereGeometry args={[1, 64, 64]} />
 
           <shaderMaterial
             vertexShader={cloudVertexShader}
@@ -219,7 +210,7 @@ function Earth() {
 }
 
 // ============================================
-// SPACE BACKGROUND — PURE BLACK
+// SPACE BACKGROUND
 // ============================================
 
 function SpaceScene() {
@@ -242,15 +233,17 @@ export default function EarthScene() {
   return (
     <div className="earth-canvas">
       <Canvas
+        dpr={[1, 1.5]}
+        frameloop="always"
+        gl={{
+          antialias: true,
+          alpha: true,
+          powerPreference: "high-performance",
+          stencil: false,
+        }}
         camera={{
           position: [0, 0, 3.25],
           fov: 42,
-        }}
-        dpr={[1, 1.5]}
-        gl={{
-          antialias: true,
-          alpha: false,
-          powerPreference: "high-performance",
         }}
       >
         <SpaceScene />

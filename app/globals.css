@@ -32,20 +32,19 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   background: var(--background);
   scroll-padding-top: 100px;
+  overflow-x: clip;
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-
   color: var(--foreground);
   background: var(--background);
-
   font-family: var(--font-body);
-  overflow-x: hidden;
+  overflow-x: clip;
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -118,11 +117,10 @@ backdrop-filter: none;
 -webkit-backdrop-filter: none;
 
   transition:
-    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.35s ease,
-    background 0.35s ease,
-    border-color 0.35s ease,
-    backdrop-filter 0.35s ease;
+  transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+  opacity 0.35s ease,
+  background 0.35s ease,
+  border-color 0.35s ease;
 
   will-change: transform;
 }
@@ -438,11 +436,11 @@ backdrop-filter: none;
   align-items: flex-start;
 
   font-family: var(--font-heading);
-  font-size: clamp(3.5rem, 6.5vw, 6.5rem);
+  font-size: clamp(4rem, 7vw, 7.5rem);
   font-weight: 700;
 
-  line-height: 1.08;
-  letter-spacing: -0.055em;
+  line-height: 1.06;
+  letter-spacing: -0.06em;
 
   text-transform: uppercase;
   color: #ffffff;
@@ -530,36 +528,30 @@ backdrop-filter: none;
 
 .earth-container {
   position: absolute;
-
   top: 50%;
   right: -19%;
-
   z-index: 1;
 
-  width: 82vw;
-  height: 112vh;
-  height: 112svh;
+  width: 76vw;
+  height: 100vh;
+  height: 100svh;
 
   transform: translateY(-48%);
-
   pointer-events: none;
 }
 
 .earth-container .earth-canvas {
   position: relative;
-
   width: 100%;
   height: 100%;
-
   background: transparent;
+  contain: layout paint;
 }
 
 .earth-container canvas {
   display: block;
-
   width: 100%;
   height: 100%;
-
   outline: none;
 }
 
@@ -812,5 +804,73 @@ backdrop-filter: none;
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* =====================================
+   LAPTOP RESPONSIVE FIX
+===================================== */
+
+@media (min-width: 1025px) and (max-width: 1600px) {
+  .hero-content {
+    position: relative;
+    z-index: 5;
+    width: 54%;
+    max-width: 760px;
+  }
+
+  .hero-title {
+    max-width: 100%;
+    font-size: clamp(58px, 6vw, 100px);
+  }
+
+  .hero-description {
+    max-width: 520px;
+  }
+
+  .earth-container {
+    z-index: 1;
+    width: 76vw;
+    height: 100vh;
+    height: 100svh;
+    right: -25%;
+    top: 50%;
+    transform: translateY(-48%);
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .hero-content {
+    width: 57%;
+  }
+
+  .hero-title {
+    font-size: clamp(52px, 5.6vw, 76px);
+  }
+
+  .earth-container {
+    width: 72vw;
+    height: 95vh;
+    height: 95svh;
+    right: -18%;
+  }
+}
+/* Smaller laptops */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .hero-content {
+    width: 57%;
+  }
+
+  .hero-title {
+    font-size: clamp(48px, 5vw, 65px);
+  }
+
+  .earth-container {
+    width: 72vw;
+    height: 95vh;
+    height: 95svh;
+    right: -18%;
   }
 }
