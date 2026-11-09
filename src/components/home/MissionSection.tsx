@@ -1,19 +1,18 @@
-
 import Image from "next/image";
 import "./MissionSection.css";
 
 export default function MissionSection() {
   return (
     <section className="mission-section" id="mission">
-
       {/* BACKGROUND IMAGE */}
       <div className="mission-background">
         <Image
           src="/images/mission-f1.png"
           alt="Formula racing car on a cinematic racing circuit at sunset"
           fill
+          priority={false}
           sizes="100vw"
-          quality={85}
+          quality={90}
           className="mission-image"
         />
       </div>
@@ -23,7 +22,6 @@ export default function MissionSection() {
 
       {/* MAIN CONTENT */}
       <div className="mission-content">
-
         {/* SECTION LABEL */}
         <div className="mission-label">
           <span className="mission-slashes">//</span>
@@ -33,7 +31,6 @@ export default function MissionSection() {
 
         {/* MISSION HEADING */}
         <div className="mission-copy">
-
           <h2 className="mission-title">
             <span className="mission-title-light">
               Turning Ideas into
@@ -57,10 +54,8 @@ export default function MissionSection() {
               and move ideas forward.
             </p>
           </blockquote>
-
         </div>
       </div>
-
     </section>
   );
 }

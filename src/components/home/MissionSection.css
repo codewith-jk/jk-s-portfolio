@@ -1,7 +1,6 @@
-
-/* =====================================
+/* =========================================
    MISSION SECTION
-===================================== */
+========================================= */
 
 .mission-section {
   position: relative;
@@ -14,9 +13,9 @@
   color: #ffffff;
 }
 
-/* =====================================
+/* =========================================
    BACKGROUND IMAGE
-===================================== */
+========================================= */
 
 .mission-background {
   position: absolute;
@@ -33,9 +32,9 @@
   will-change: transform, opacity;
 }
 
-/* =====================================
-   DARK CINEMATIC OVERLAY
-===================================== */
+/* =========================================
+   CINEMATIC OVERLAY
+========================================= */
 
 .mission-overlay {
   position: absolute;
@@ -46,23 +45,23 @@
   background:
     linear-gradient(
       90deg,
-      rgba(0, 0, 0, 0.78) 0%,
-      rgba(0, 0, 0, 0.62) 27%,
-      rgba(0, 0, 0, 0.30) 52%,
-      rgba(0, 0, 0, 0.08) 78%,
+      rgba(0, 0, 0, 0.84) 0%,
+      rgba(0, 0, 0, 0.72) 25%,
+      rgba(0, 0, 0, 0.42) 48%,
+      rgba(0, 0, 0, 0.12) 75%,
       rgba(0, 0, 0, 0.16) 100%
     ),
     linear-gradient(
       0deg,
-      rgba(0, 0, 0, 0.46) 0%,
+      rgba(0, 0, 0, 0.48) 0%,
       transparent 48%,
       rgba(0, 0, 0, 0.28) 100%
     );
 }
 
-/* =====================================
+/* =========================================
    CONTENT POSITION
-===================================== */
+========================================= */
 
 .mission-content {
   position: relative;
@@ -74,16 +73,16 @@
 
   padding:
     clamp(90px, 11vh, 135px)
-    clamp(35px, 7.5vw, 125px);
+    clamp(35px, 7.8vw, 140px);
 
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-/* =====================================
-   THE MISSION LABEL
-===================================== */
+/* =========================================
+   SECTION LABEL
+========================================= */
 
 .mission-label {
   display: flex;
@@ -101,7 +100,7 @@
 
 .mission-slashes {
   color: #ed2929;
-  font-size: 24px;
+  font-size: 25px;
   font-weight: 700;
   letter-spacing: -0.14em;
   transform: skew(-12deg);
@@ -119,12 +118,12 @@
   background: rgba(255, 255, 255, 0.72);
 }
 
-/* =====================================
+/* =========================================
    MAIN HEADING
-===================================== */
+========================================= */
 
 .mission-copy {
-  width: min(700px, 58vw);
+  width: min(760px, 62vw);
   margin-top: clamp(65px, 9vh, 105px);
 }
 
@@ -144,12 +143,15 @@
   display: block;
 
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(38px, 5.1vw, 74px);
+  font-size: clamp(42px, 5.1vw, 76px);
   font-weight: 400;
   font-style: normal;
+
   line-height: 1.12;
   letter-spacing: -0.045em;
   white-space: nowrap;
+
+  color: rgba(255, 255, 255, 0.96);
 }
 
 /* REALITY */
@@ -157,48 +159,56 @@
 .mission-title-bold {
   display: block;
 
-  font-family: var(--font-space-grotesk), Arial, sans-serif;
-  font-size: clamp(68px, 8.2vw, 120px);
-  font-weight: 700;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(76px, 8.8vw, 132px);
+  font-weight: 550;
   font-style: italic;
+
   line-height: 0.98;
-  letter-spacing: -0.065em;
+  letter-spacing: 0.038em;
+
+  color: #ffffff;
 }
 
 .mission-period {
   color: #ed2929;
+  font-style: normal;
 }
 
-/* =====================================
+/* =========================================
    RED ACCENT LINE
-===================================== */
+========================================= */
 
 .mission-accent-line {
-  width: 110px;
+  width: clamp(90px, 9vw, 130px);
   height: 2px;
-  margin-top: 34px;
+
+  margin-top: clamp(25px, 3vw, 38px);
+
   background: #ed2929;
 }
 
-/* =====================================
+/* =========================================
    MISSION QUOTE
-===================================== */
+========================================= */
 
 .mission-quote {
   position: relative;
   display: block;
 
-  max-width: 620px;
-  margin: 37px 0 0;
-  padding: 0 0 0 36px;
+  max-width: 650px;
 
-  color: rgba(255, 255, 255, 0.90);
+  margin: 35px 0 0;
+  padding: 0 0 0 42px;
+
+  color: rgba(255, 255, 255, 0.92);
 
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(17px, 1.65vw, 23px);
+  font-size: clamp(18px, 1.65vw, 24px);
   font-style: italic;
   font-weight: 400;
-  line-height: 1.65;
+
+  line-height: 1.90;
   letter-spacing: 0.005em;
 }
 
@@ -207,26 +217,25 @@
   margin: 0;
 }
 
-/* OPENING DOUBLE QUOTE */
+/* OPENING QUOTE */
 
 .mission-quote::before {
   content: "“";
 
   position: absolute;
   left: 0;
-  top: -12px;
+  top: -13px;
 
-  color: rgba(255, 255, 255, 0.48);
+  color: rgba(255, 255, 255, 0.58);
 
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 55px;
+  font-size: 62px;
   font-weight: 700;
+  font-style: normal;
   line-height: 1;
 }
 
-/* CLOSING DOUBLE QUOTE
-   Stays close to the final word
-===================================== */
+/* CLOSING QUOTE */
 
 .mission-quote::after {
   content: "”";
@@ -234,21 +243,22 @@
   display: inline;
   position: static;
 
-  margin-left: 8px;
+  margin-left: 9px;
 
-  color: rgba(255, 255, 255, 0.48);
+  color: rgba(255, 255, 255, 0.58);
 
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 43px;
+  font-size: 62px;
   font-weight: 700;
+  font-style: normal;
   line-height: 0;
 
-  vertical-align: -0.15em;
+  vertical-align: -0.18em;
 }
 
-/* =====================================
+/* =========================================
    IMAGE REVEAL
-===================================== */
+========================================= */
 
 @keyframes missionImageReveal {
   from {
@@ -262,9 +272,65 @@
   }
 }
 
-/* =====================================
+/* =========================================
+   LARGE DESKTOP
+========================================= */
+
+@media (min-width: 1601px) {
+  .mission-content {
+    padding-left: clamp(140px, 8vw, 190px);
+  }
+
+  .mission-copy {
+    width: min(900px, 62vw);
+  }
+
+  .mission-title-light {
+    font-size: clamp(76px, 4.8vw, 92px);
+  }
+
+  .mission-title-bold {
+    font-size: clamp(130px, 8vw, 160px);
+  }
+
+  .mission-quote {
+    font-size: 25px;
+    max-width: 720px;
+  }
+}
+
+/* =========================================
+   LAPTOP
+========================================= */
+
+@media (min-width: 1025px) and (max-width: 1400px) {
+  .mission-content {
+    padding-left: 7%;
+    padding-right: 7%;
+  }
+
+  .mission-copy {
+    width: min(680px, 60vw);
+    margin-top: 75px;
+  }
+
+  .mission-title-light {
+    font-size: clamp(48px, 5vw, 68px);
+  }
+
+  .mission-title-bold {
+    font-size: clamp(82px, 8.5vw, 112px);
+  }
+
+  .mission-quote {
+    max-width: 570px;
+    font-size: 20px;
+  }
+}
+
+/* =========================================
    TABLET
-===================================== */
+========================================= */
 
 @media (max-width: 1024px) {
   .mission-section,
@@ -277,7 +343,7 @@
   }
 
   .mission-copy {
-    width: min(650px, 75vw);
+    width: min(650px, 78vw);
     margin-top: 85px;
   }
 
@@ -286,26 +352,26 @@
   }
 
   .mission-title-light {
-    font-size: clamp(38px, 6vw, 62px);
+    font-size: clamp(40px, 6vw, 62px);
   }
 
   .mission-title-bold {
-    font-size: clamp(65px, 10vw, 100px);
+    font-size: clamp(70px, 10vw, 105px);
   }
 
   .mission-quote {
     font-size: 20px;
   }
 
+  .mission-quote::before,
   .mission-quote::after {
-    margin-left: 7px;
-    font-size: 40px;
+    font-size: 55px;
   }
 }
 
-/* =====================================
+/* =========================================
    MOBILE
-===================================== */
+========================================= */
 
 @media (max-width: 600px) {
   .mission-section,
@@ -334,16 +400,18 @@
 
   .mission-copy {
     width: 100%;
-    margin-top: 100px;
+    margin-top: 85px;
   }
 
   .mission-title-light {
-    font-size: clamp(30px, 7.8vw, 43px);
+    font-size: clamp(31px, 7.8vw, 43px);
+    line-height: 1.18;
     white-space: normal;
   }
 
   .mission-title-bold {
-    font-size: clamp(65px, 16vw, 88px);
+    font-size: clamp(66px, 16vw, 90px);
+    line-height: 1;
   }
 
   .mission-accent-line {
@@ -354,8 +422,7 @@
   .mission-quote {
     max-width: 100%;
     margin-top: 30px;
-    padding-left: 27px;
-    padding-right: 0;
+    padding-left: 30px;
 
     font-size: 17px;
     line-height: 1.7;
@@ -363,17 +430,13 @@
 
   .mission-quote::before {
     top: -9px;
-    font-size: 43px;
+    font-size: 45px;
   }
 
   .mission-quote::after {
-    position: static;
-    display: inline;
-
     margin-left: 5px;
-
-    font-size: 35px;
-    vertical-align: -0.13em;
+    font-size: 45px;
+    vertical-align: -0.15em;
   }
 
   .desktop-break {
@@ -388,9 +451,9 @@
     background:
       linear-gradient(
         90deg,
-        rgba(0, 0, 0, 0.82) 0%,
-        rgba(0, 0, 0, 0.62) 55%,
-        rgba(0, 0, 0, 0.28) 100%
+        rgba(0, 0, 0, 0.84) 0%,
+        rgba(0, 0, 0, 0.68) 55%,
+        rgba(0, 0, 0, 0.35) 100%
       ),
       linear-gradient(
         0deg,
@@ -400,9 +463,9 @@
   }
 }
 
-/* =====================================
+/* =========================================
    SMALL MOBILE
-===================================== */
+========================================= */
 
 @media (max-width: 380px) {
   .mission-title-light {
@@ -415,17 +478,22 @@
 
   .mission-quote {
     font-size: 15px;
+    padding-left: 26px;
+  }
+
+  .mission-quote::before,
+  .mission-quote::after {
+    font-size: 38px;
   }
 
   .mission-quote::after {
-    font-size: 32px;
     margin-left: 4px;
   }
 }
 
-/* =====================================
+/* =========================================
    REDUCED MOTION
-===================================== */
+========================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .mission-image {

@@ -8,11 +8,12 @@ import { ArrowRight, Menu, X } from "lucide-react";
 
 import EarthScene from "../src/components/hero/EarthScene";
 import MissionSection from "../src/components/home/MissionSection";
+import SelectedMissions from "../src/components/sections/SelectedMissions";
 
 const navigation = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Projects", href: "/projects" },
+  { label: "Projects", href: "/selected-missions" },
   { label: "Experience", href: "/experience" },
 ];
 
@@ -238,8 +239,10 @@ export default function HomePage() {
             push boundaries and turn ambitious ideas into reality.
           </p>
 
+          {/* EXPLORE MY WORK */}
+
           <Link
-            href="/projects"
+            href="/selected-missions"
             className="explore-button"
           >
             EXPLORE MY WORK
@@ -269,6 +272,9 @@ export default function HomePage() {
       ================================= */}
 
       <MissionSection />
+
+      {/* SECTION 03 — SELECTED MISSIONS */}
+      <SelectedMissions />
 
       {/* Future homepage sections will go here */}
 
