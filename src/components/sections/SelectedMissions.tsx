@@ -3,170 +3,230 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { ArrowUpRight } from "lucide-react";
 import "./SelectedMissions.css";
 
 type Project = {
   id: string;
   name: string;
-  category: string;
   logo: string;
-  description: string;
+  category: string;
+  overview: string;
   contribution: string;
   technologies: string[];
-  url?: string;
+  url: string | null;
+  status: "live" | "progress";
 };
 
 const projects: Project[] = [
   {
     id: "origin-tiles",
     name: "Origin Tiles",
-    category: "BRAND & BUSINESS WEBSITE",
     logo: "/images/selected-missions/origin-tiles.png",
-    description:
-      "A digital presence created for a tiles brand to showcase its identity, products and collections through a modern website experience.",
+    category: "CORPORATE WEBSITE",
+    overview:
+      "A modern digital presence for a tiles brand, designed to showcase products, communicate the brand identity and create a smooth browsing experience.",
     contribution:
-      "Worked on the website frontend and visual presentation, creating structured sections to introduce the brand and showcase its products.",
-    technologies: ["React.js", "JavaScript", "CSS", "Netlify"],
+      "Worked on the website interface, responsive layouts and frontend implementation to present the brand and its product offerings.",
+    technologies: ["React.js", "JavaScript", "CSS"],
     url: "https://cozy-begonia-d0ed86.netlify.app/",
+    status: "live",
   },
   {
     id: "trees-plywood",
     name: "The Trees Plywood",
-    category: "CORPORATE & PRODUCT WEBSITE",
     logo: "/images/selected-missions/trees-plywood.png",
-    description:
-      "A business website created to present the plywood brand, its product range and business information through a clear digital experience.",
+    category: "BUSINESS WEBSITE",
+    overview:
+      "A business website created to present plywood products, communicate brand information and provide visitors with a clear overview of the company.",
     contribution:
-      "Worked on website design and frontend development, focusing on the layout, content presentation and product-focused sections.",
-    technologies: ["React.js", "JavaScript", "CSS", "Netlify"],
+      "Worked on the website design and frontend development, focusing on responsive sections, visual presentation and user experience.",
+    technologies: ["React.js", "JavaScript", "CSS"],
     url: "https://astonishing-biscotti-4c38fa.netlify.app/",
+    status: "live",
   },
   {
     id: "aroha-beachfront",
     name: "Aroha Beachfront",
-    category: "HOSPITALITY & REAL ESTATE",
     logo: "/images/selected-missions/aroha-beachfront.png",
-    description:
-      "A digital experience for a beachfront destination, designed to present its identity, atmosphere and key information to visitors.",
+    category: "HOSPITALITY WEBSITE",
+    overview:
+      "A hospitality website concept designed to present beachfront accommodation, property highlights and an inviting digital experience for visitors.",
     contribution:
-      "Project overview and individual development responsibilities can be updated with the final project scope.",
+      "Website scope and individual development responsibilities will be updated according to the final implementation.",
     technologies: ["React.js", "JavaScript", "CSS"],
+    url: null,
+    status: "progress",
   },
   {
     id: "okto-retail",
     name: "OKTO Retail",
-    category: "FULL-STACK E-COMMERCE PLATFORM",
     logo: "/images/selected-missions/okto-retail.png",
-    description:
-      "A full-stack retail e-commerce platform with product discovery, category browsing, user accounts, shopping cart and order-related functionality.",
+    category: "E-COMMERCE PLATFORM",
+    overview:
+      "An e-commerce platform built to present products, support product discovery and provide customers with a structured online shopping experience.",
     contribution:
-      "Developed REST APIs using Node.js and Express.js, designed MongoDB models, implemented JWT authentication, bcrypt password hashing and role-based access control. Built product, category, cart and address APIs, integrated Cloudinary image uploads and Razorpay order creation. Also worked on frontend sections and responsive improvements.",
+      "Developed backend REST APIs, MongoDB models, JWT authentication, role-based access control, product and category management, cart, address and order functionality. Also worked on frontend sections and search functionality.",
     technologies: [
       "React.js",
       "Node.js",
       "Express.js",
       "MongoDB",
       "JWT",
-      "Cloudinary",
       "Razorpay",
     ],
     url: "https://okto-retail.vercel.app/",
+    status: "live",
   },
   {
     id: "nbce",
     name: "NBCE Computer Education",
-    category: "EDUCATION WEBSITE",
     logo: "/images/selected-missions/nbce.jpg",
-    description:
-      "An educational website created to present institute information, courses and learning-related services in a structured digital format.",
+    category: "EDUCATION WEBSITE",
+    overview:
+      "An educational website designed to introduce computer education programs, share institutional information and help students explore available courses.",
     contribution:
-      "Worked on the full-stack website implementation, including frontend development and backend functionality.",
-    technologies: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
+      "Worked on the full-stack website using React, Node.js, Express and MongoDB, with a responsive interface and backend functionality.",
+    technologies: ["React.js", "Node.js", "Express.js", "MongoDB"],
+    url: null,
+    status: "progress",
   },
   {
-    id: "maa-kali-temple",
+    id: "maa-kali",
     name: "Maa Kali Temple, Chandbali",
-    category: "TEMPLE & COMMUNITY WEBSITE",
     logo: "/images/selected-missions/maa-kali-temple.png",
-    description:
+    category: "TEMPLE & COMMUNITY WEBSITE",
+    overview:
       "A digital platform concept for presenting temple information, religious activities, visitor details and community updates.",
     contribution:
       "Project scope and development responsibilities will be updated according to the final implementation.",
     technologies: ["React.js", "JavaScript", "CSS"],
+    url: null,
+    status: "progress",
   },
   {
     id: "samaleswari-trust",
     name: "Samaleswari Temple Trust Board",
-    category: "INSTITUTIONAL WEBSITE",
     logo: "/images/selected-missions/samaleswari-trust.png",
-    description:
-      "A digital platform for presenting temple trust information, important updates, visitor resources and institutional details.",
+    category: "INSTITUTIONAL WEBSITE",
+    overview:
+      "A digital platform concept for presenting temple trust information, important updates, visitor resources and institutional details.",
     contribution:
-      "Project scope and individual development responsibilities will be updated as the implementation progresses.",
+      "Project scope and development responsibilities will be updated according to the final implementation.",
     technologies: ["React.js", "JavaScript", "CSS"],
+    url: null,
+    status: "progress",
   },
   {
     id: "sea-project",
     name: "SEA Projects",
-    category: "BUSINESS WEBSITE",
     logo: "/images/selected-missions/sea-project.jpg",
-    description:
-      "A digital project focused on presenting the business identity, services and relevant information through a modern web experience.",
+    category: "CORPORATE WEBSITE",
+    overview:
+      "A corporate website concept for presenting company services, project information and business capabilities through a clear digital interface.",
     contribution:
-      "The project overview and development responsibilities will be updated as the project progresses.",
+      "Project scope and development responsibilities will be updated according to the final implementation.",
     technologies: ["React.js", "JavaScript", "CSS"],
+    url: null,
+    status: "progress",
   },
   {
     id: "duno-studio",
     name: "DUNO Studio",
-    category: "CREATIVE BRAND WEBSITE",
     logo: "/images/selected-missions/duno-studio.png",
-    description:
-      "A creative brand website with an editorial-inspired visual direction, thoughtful typography and a distinctive digital identity.",
+    category: "CREATIVE STUDIO WEBSITE",
+    overview:
+      "A creative studio website concept focused on visual storytelling, brand presentation and a refined digital experience.",
     contribution:
-      "Worked on the visual direction and website structure, with attention to typography, layout and brand presentation.",
-    technologies: ["React.js", "Tailwind CSS", "JavaScript"],
+      "Project scope and development responsibilities will be updated according to the final implementation.",
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS"],
+    url: null,
+    status: "progress",
   },
   {
     id: "yatra",
     name: "Yatra Elevators",
-    category: "CORPORATE WEBSITE",
     logo: "/images/selected-missions/yatra.png",
-    description:
-      "A corporate website developed to present elevator products and services through a responsive and professional digital experience.",
+    category: "CORPORATE WEBSITE",
+    overview:
+      "A responsive corporate website created to present elevator solutions, company information and service offerings.",
     contribution:
-      "Worked on frontend implementation and responsive layouts across desktop, tablet and mobile screens. The website frontend was completed and deployed.",
-    technologies: ["React.js", "JavaScript", "CSS", "Vercel"],
+      "Worked on frontend implementation, responsive layouts and website sections. The completed frontend was deployed on Vercel.",
+    technologies: ["React.js", "JavaScript", "CSS"],
+    url: null,
+    status: "progress",
   },
 ];
 
-const projectColumns = [
-  projects.filter((_, index) => index % 3 === 0),
-  projects.filter((_, index) => index % 3 === 1),
-  projects.filter((_, index) => index % 3 === 2),
+const columns = [
+  projects.slice(0, 4),
+  projects.slice(4, 7),
+  projects.slice(7, 10),
 ];
 
+function LogoCard({
+  project,
+  active,
+  onHover,
+  onClick,
+}: {
+  project: Project;
+  active: boolean;
+  onHover: () => void;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className={`mission-logo-button ${active ? "active" : ""}`}
+      onMouseEnter={onHover}
+      onFocus={onHover}
+      onClick={onClick}
+      aria-label={`Explore ${project.name}`}
+      aria-pressed={active}
+    >
+      <Image
+        src={project.logo}
+        alt={`${project.name} logo`}
+        fill
+        sizes="(max-width: 700px) 28vw, 12vw"
+        className="mission-logo-image"
+      />
+
+      <span className="mission-logo-overlay">
+        EXPLORE
+        <ArrowUpRight size={15} className="logo-arrow" />
+      </span>
+    </button>
+  );
+}
+
 export default function SelectedMissions() {
-  const [activeProject, setActiveProject] = useState<Project>(
-    projects.find((project) => project.id === "trees-plywood") ?? projects[0]
+  const router = useRouter();
+  const [selectedProject, setSelectedProject] = useState<Project>(
+    projects[1]
   );
 
   const openProject = (project: Project) => {
     if (project.url) {
       window.open(project.url, "_blank", "noopener,noreferrer");
-    } else {
-      window.location.href = `/under-construction/${project.id}`;
+      return;
     }
+
+    router.push(
+      `/under-construction?project=${encodeURIComponent(project.name)}`
+    );
   };
 
   return (
     <section className="selected-missions" id="selected-missions">
-      {/* BACKGROUND */}
+      {/* Background image */}
 
       <div className="missions-background">
         <Image
-          src="/images/selected-missions/fighter-jet-bg-v2.png"
-          alt="Fighter jet in flight"
+          src="/images/selected-missions/fighter-jet-bg.png"
+          alt=""
           fill
           priority
           sizes="100vw"
@@ -178,138 +238,134 @@ export default function SelectedMissions() {
       <div className="missions-vignette" />
 
       <div className="missions-content">
-        {/* SMALL TECHNICAL HEADING */}
+        {/* Section heading */}
 
-        <header className="missions-heading">
+        <div className="missions-heading">
           <div className="missions-heading-title">
-            <span className="missions-roundel">
-              <Image
-                src="/images/selected-missions/Indian Air Force Tricolour Roundel.png"
-                alt="Indian Air Force roundel"
-                width={28}
-                height={28}
-                className="missions-roundel-image"
-              />
-            </span>
+            <Image
+              src="/images/selected-missions/Indian Air Force Tricolour Roundel.png"
+              alt="Indian Air Force roundel"
+              width={25}
+              height={25}
+              className="missions-roundel-image"
+            />
 
-            <h2>SELECTED MISSION</h2>
+            <h2>Selected Mission</h2>
           </div>
 
           <div className="missions-heading-line" />
-        </header>
+        </div>
 
-        {/* MAIN LAYOUT */}
+        {/* Main layout */}
 
         <div className="missions-layout">
-          {/* THREE INDEPENDENT LOGO COLUMNS */}
+          {/* Project logo columns */}
 
           <div className="missions-logo-area">
             <div className="missions-logo-grid">
-              {projectColumns.map((column, columnIndex) => (
+              {columns.map((column, columnIndex) => (
                 <div
                   className={`mission-logo-column mission-column-${columnIndex + 1}`}
-                  key={columnIndex}
+                  key={`column-${columnIndex}`}
                 >
                   <div className="mission-logo-track">
-                    {[0, 1].map((copy) => (
-                      <div
-                        className="mission-logo-set"
-                        key={copy}
-                        aria-hidden={copy === 1}
-                      >
-                        {column.map((project) => {
-                          const isActive = activeProject.id === project.id;
+                    {/* First set */}
 
-                          return (
-                            <button
-                              key={`${copy}-${project.id}`}
-                              type="button"
-                              className={`mission-logo-button ${
-                                isActive ? "active" : ""
-                              }`}
-                              onMouseEnter={() => setActiveProject(project)}
-                              onFocus={() => setActiveProject(project)}
-                              onClick={() => openProject(project)}
-                              aria-label={`Open ${project.name}`}
-                              tabIndex={copy === 0 ? 0 : -1}
-                            >
-                              <Image
-                                src={project.logo}
-                                alt={`${project.name} logo`}
-                                fill
-                                sizes="(max-width: 700px) 28vw, 120px"
-                                className="mission-logo-image"
-                              />
+                    <div className="mission-logo-set">
+                      {column.map((project) => (
+                        <LogoCard
+                          key={project.id}
+                          project={project}
+                          active={selectedProject.id === project.id}
+                          onHover={() => setSelectedProject(project)}
+                          onClick={() => openProject(project)}
+                        />
+                      ))}
+                    </div>
 
-                              <span className="mission-logo-overlay">
-                                <span>EXPLORE</span>
-                                <span className="logo-arrow">↗</span>
-                              </span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    ))}
+                    {/* Duplicate set for continuous scrolling */}
+
+                    <div className="mission-logo-set" aria-hidden="true">
+                      {column.map((project) => (
+                        <LogoCard
+                          key={`${project.id}-duplicate`}
+                          project={project}
+                          active={false}
+                          onHover={() => setSelectedProject(project)}
+                          onClick={() => openProject(project)}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* PROJECT INFORMATION */}
+          {/* Selected project details */}
 
-          <div className="mission-details" key={activeProject.id}>
+          <div className="mission-details" key={selectedProject.id}>
             <div className="mission-detail-main">
               <div className="mission-category">
                 <span className="category-indicator" />
-                {activeProject.category}
+                {selectedProject.category}
               </div>
 
-              <h1>{activeProject.name}</h1>
+              <h1>{selectedProject.name}</h1>
 
               <div className="mission-heading-accent" />
 
+              {/* Overview */}
+
               <div className="mission-info-block">
-                <span className="mission-info-label">
-                  <span>01</span>
+                <div className="mission-info-label">
                   PROJECT OVERVIEW
-                </span>
+                </div>
 
-                <p>{activeProject.description}</p>
+                <p>{selectedProject.overview}</p>
               </div>
+
+              {/* Contribution */}
 
               <div className="mission-info-block">
-                <span className="mission-info-label">
-                  <span>02</span>
+                <div className="mission-info-label">
                   MY CONTRIBUTION
-                </span>
+                </div>
 
-                <p>{activeProject.contribution}</p>
+                <p>{selectedProject.contribution}</p>
               </div>
+
+              {/* Technologies */}
 
               <div className="mission-technologies">
-                <span className="mission-info-label">
-                  <span>03</span>
+                <div className="mission-info-label">
                   TECHNOLOGY STACK
-                </span>
+                </div>
 
                 <div className="mission-tech-list">
-                  {activeProject.technologies.map((technology) => (
+                  {selectedProject.technologies.map((technology) => (
                     <span key={technology}>{technology}</span>
                   ))}
                 </div>
               </div>
 
+              {/* Project action */}
+
               <button
                 type="button"
                 className="mission-open-button"
-                onClick={() => openProject(activeProject)}
+                onClick={() => openProject(selectedProject)}
               >
                 <span>
-                  {activeProject.url ? "EXPLORE PROJECT" : "PROJECT IN PROGRESS"}
+                  {selectedProject.status === "live"
+                    ? "VIEW LIVE PROJECT"
+                    : "PROJECT IN PROGRESS"}
                 </span>
 
-                <span className="mission-open-arrow">↗</span>
+                <ArrowUpRight
+                  size={18}
+                  className="mission-open-arrow"
+                />
               </button>
             </div>
           </div>
